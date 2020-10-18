@@ -25,3 +25,15 @@ Pelda kimenet:
 [0, 35, 1]
 
 """
+
+n=int(input())
+index=0
+list=[]
+
+while index != n:
+    szam=int(input())
+    if szam >= 0:
+        index+=1
+        list.append(szam)
+
+print(list)
