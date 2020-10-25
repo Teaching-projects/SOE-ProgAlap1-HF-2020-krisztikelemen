@@ -26,3 +26,25 @@ Kimenet:
 5
 6
 """
+szam=1
+list=[]
+egyediek=[]
+index=0
+
+while szam != 0:
+  szam=int(input())
+  list.append(szam)
+
+while index < len(list):
+  aktualis = list[index]
+  index2 = 0
+  bennevan = False
+  while index2 < len(egyediek):
+    if egyediek[index2] == aktualis:
+      bennevan = True
+    index2 += 1
+  if not bennevan:
+    egyediek.append(aktualis)
+  index += 1
+
+print(egyediek)
