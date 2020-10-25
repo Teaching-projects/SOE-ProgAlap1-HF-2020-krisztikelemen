@@ -19,3 +19,17 @@ Pl.:
 49 (100)  -->  1
 """
 
+def hetes(szam):
+  a = szam // 7
+  b = szam % 7
+  if szam == 0: 
+    return 0
+  if a == 0:
+    return str(b)
+  else: 
+    return (hetes(a) + str(b))
+
+szam=int(input())
+ertek = sum(int(x) for x in str(hetes(szam)))
+
+print(ertek)
