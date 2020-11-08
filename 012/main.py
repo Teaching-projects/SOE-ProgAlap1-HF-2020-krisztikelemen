@@ -39,10 +39,23 @@ tehat pl egy initialize_map(10,6) altal adott terkepet ha kiiratunk, az igy nezz
 """
 
 def initialize_map (width, height):
-    # ide masold be a helyes megoldasodat mult hetrol
+    terkep = []
+    sor = []
+    for y in range (1, height+1):
+        for x in range (1, width+1):
+            if (x == 1 or x == width) or (y == 1 or y == height):
+                sor.append("█")
+            else: 
+                sor.append("░")
+        terkep.append(sor)
+        sor = []
+    return terkep
 
 def pretty_map_print(map):
-    # Ide ird meg az uj fuggvenyt, ami a fentiek szerint generalja a kimenetet
+    for i in range (len(map)):
+        for x in range (len(map[i])):
+            print(map[i][x], end = "")
+        print()
 
 
 ###############################################################

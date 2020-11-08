@@ -37,9 +37,17 @@ Elso alkalommal most az a feladat, hogy irjatok egy olyan fuggvenyt, ami visszaa
 
 
 def initialize_map (width, height):
-    # Ide irjatok meg a kodotokat. Mindket argumentum egy int, es a sorok/oszlopok szamat fogja megadni.
-    # A fuggveny ugy mukodjon, egy egy teglalap alaku terkepet adjon vissza a megfelelo sor es oszlopszammal, de ugy, hogy a szelso mezok falak (es csak azok)
-    # Feltetelezheto, hogy mindket ertek legalabb 2
+    terkep = []
+    sor = []
+    for y in range (1, height+1):
+        for x in range (1, width+1):
+            if (x == 1 or x == width) or (y == 1 or y == height):
+                sor.append("█")
+            else: 
+                sor.append("░")
+        terkep.append(sor)
+        sor = []
+    return terkep
 
 
 """
