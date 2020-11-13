@@ -31,14 +31,32 @@ Ket dolog valtozott meg:
 
 
 """
-
 def initialize_map (width, height):
-    # ide masold be a helyes megoldasodat a multkorirol
+    terkep = []
+    sor = []
+    for y in range (1, height+1):
+        for x in range (1, width+1):
+            if (x == 1 or x == width) or (y == 1 or y == height):
+                sor.append("█")
+            else: 
+                sor.append("░")
+        terkep.append(sor)
+        sor = []
+    return terkep
 
 def pretty_map_print(map, character):
-    # Ide masold be a multkorit, a fenti modositasokkal. 
-    # Ha a karakter pozicioja a palyan kivul lenne, egyszeruen ne jelenjen meg
+    x = character["position"]["x"]
+    y = character["position"]["y"]
+    width = len(map[1])
+    height = len(map)
+    
+    if (x <= width - 1 and x >= 0) and (y <= height - 1 and y >= 0): 
+        map[y][x] = "🧙"
 
+    for i in range(len(map)):
+        for j in range(len(map[i])):
+            print(map[i][j], end='')
+        print()
 
 ###############################################################
 ###############################################################
