@@ -37,9 +37,9 @@ def initialize_map (width, height):
     for y in range (1, height+1):
         for x in range (1, width+1):
             if (x == 1 or x == width) or (y == 1 or y == height):
-                sor.append("█")
+                sor.append("██")
             else: 
-                sor.append("░")
+                sor.append("░░")
         terkep.append(sor)
         sor = []
     return terkep
