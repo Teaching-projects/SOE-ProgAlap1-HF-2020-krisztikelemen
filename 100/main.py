@@ -33,8 +33,10 @@ def total_distance(gpx):
     return totaldistance
 
 def total_time(gpx):
-    totaldistance = gpx[-1]["timestamp"]
-    return totaldistance
+    totaltime = 0
+    for i in range(len(gpx)-1):
+        totaltime += gpx[i+1]["timestamp"] - gpx[i]["timestamp"]
+    return totaltime
 
 def idle_time(gpx):
     idletime = 0
