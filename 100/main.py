@@ -17,53 +17,96 @@ A feladatban tobb, esetenkent egymasra epulo fuggvenyt kell megirni, melyek erro
 
 """
 
-# Ez a fugggveny adja meg ket position kozotti legvonalbeli tavolsagot meterben. 
-# p1 es p2 is (x,y) tuple-ok
+
 def position_distance(p1,p2):
-    pass
+    import math
+    a = (p1[0],p1[1])
+    b = (p2[0],p2[1])
+    distance = math.sqrt(((abs(a[0]-b[0]))**2) + ((abs(a[1]-b[1]))**2))
+    return distance
 
-# Ez a fuggveny egy gpx-et var, ami a fent leirt pontokbol allo lista.
-# A fuggveny adja meg a track teljes hosszat, ami a pontok kozotti legvonalbeli tavolsagok osszege.
-# Nem kell foglalkozni 3d tavolsaggal, csak a "felulnezeti tavolsaggal".
 def total_distance(gpx):
-    pass
+    totaldistance = 0
+    for i in range(len(gpx)-1):
+        distance = position_distance(gpx[i]["position"],gpx[i+1]["position"])
+        totaldistance += distance
+    return totaldistance
 
-# Ez adja meg maasodpercben, milyen hosszan futottunk
 def total_time(gpx):
-    pass
+    totaldistance = gpx[-1]["timestamp"]
+    return totaldistance
 
-# Ez a fuggveny adja meg masodpercben, hogy a futas soran hany masodpercig alldogaltunk csak futas helyett.
-# Alldogalasnak szamit, ha ket meresi pont kozott nem valtozik a pozicio
 def idle_time(gpx):
-    pass
+    idletime = 0
+    for i in range(len(gpx)-1):
+        if gpx[i+1]["position"] == gpx[i]["position"]:
+            seconds = gpx[i+1]["timestamp"] - gpx[i]["timestamp"]
+            idletime += seconds
+    return idletime
 
-# Ez a fuggveny adja vissza masodpercben, hogy mennyit mozogtunk
 def moving_time(gpx):
-    pass
+    movingtime = total_time(gpx) - idle_time(gpx)
+    return movingtime
 
-# Ez a fuggveny adjon vissza egy stringet, amiben "szepen" benne van egy eltelt ido, amit masodpercben kapunk meg
-# Szep alat mm:ss formatumot ertjuk, ha nem volt legalabb egy ora, es hh:mm:ss formatumot, ha igen.
-# Mindket esetben a legelso tag (mm vagy hh) eseteben nem szukseges a 2 szeles kiiras 0-val paddingolva, a tobbi pozicion viszont igen.
-# Jo peldak: 3:14, 12:23:05, 1:00:01
-# Rossz peldak: 03:14, 12:23:5, 1:0:1
 def pretty_time(seconds):
-    pass
+    prettytime = 0
+    h = seconds // 3600
+    m = (seconds % 3600) // 60
+    s = ((seconds % 3600) % 60) % 60
 
-# Ez a fuggveny szamolja ki, hogy mennyi volt az osszes emelkedes, azaz hany metert mentunk felfele
+    if h < 1:
+        if m == 0:
+            prettytime = "{:02d}:{:02d}".format(m, s)
+        else:
+            prettytime = "{}:{:02d}".format(m, s)
+    else:
+        prettytime = "{}:{:02d}:{:02d}".format(h, m, s)
+    return prettytime
+
 def total_ascent(gpx):
-    pass
+    max = gpx[0]["elevation"]
+    min = gpx[0]["elevation"]
 
-# Ez a fuggveny keresse meg a gpx track elejen azt a legrovidebb reszt, ami mar atlepi a megadott tavolsagot, majd errol a reszrol adjon vissza egy masolatot.
-# A fuggveny adjon vissza egy ures tracket, ha az egesz gpx track nincs olyan hosszu, mint a megadott tavolsag.
+    for i in range(len(gpx)):
+        if gpx[i]["elevation"] > max:
+            max = gpx[i]["elevation"]
+        elif gpx[i]["elevation"] < min:
+            min = gpx[i]["elevation"]
+    totalascent = max - min
+    return totalascent
+
 def chop_after_distance(gpx, distance):
-    pass
+    total = total_distance(gpx)
+    totaldistance = 0
+    track = []
 
-# Ez a fuggveny keresse meg a leggyorsabb, legalabb 1 km-es szakaszt a trackben, es adjon vissza rola egy masolatot
+    if total < distance:
+        return track
+    else:
+        for i in range(len(gpx)-1):
+            dis = position_distance(gpx[i]["position"], gpx[i+1]["position"])
+            totaldistance += dis
+            if totaldistance < distance:
+                track.append(gpx[i])
+        return track
+
 def fastest_1k(gpx):
-    pass
+    tracks = []
 
+    for i in range(len(gpx)-1):
+        distance = position_distance(gpx[i]["position"],gpx[i+1]["position"])
+        if distance >= 1000:
+            tracks.append(gpx[i])
 
-# Az alabbi reszek betoltenek egy ilyen pickle fajlt, es kiirjak a statisztikakat megformazva
+    min = tracks[0]["timestamp"]
+
+    for j in range(len(tracks)-1):
+        if tracks[j]["timestamp"] < min:
+            min = tracks[j]["timestamp"]
+    return min
+
+    
+
 import pickle
 
 infile=open(input(),"rb")
