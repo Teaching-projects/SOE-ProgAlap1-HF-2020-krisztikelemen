@@ -66,15 +66,11 @@ def pretty_time(seconds):
     return prettytime
 
 def total_ascent(gpx):
-    max = gpx[0]["elevation"]
-    min = gpx[0]["elevation"]
-
-    for i in range(len(gpx)):
-        if gpx[i]["elevation"] > max:
-            max = gpx[i]["elevation"]
-        elif gpx[i]["elevation"] < min:
-            min = gpx[i]["elevation"]
-    totalascent = max - min
+    totalascent = 0
+    for i in range(len(gpx)-1):
+        ascent = gpx[i+1]["elevation"] - gpx[i]["elevation"]
+        if ascent > 0:
+            totalascent += ascent
     return totalascent
 
 def chop_after_distance(gpx, distance):
