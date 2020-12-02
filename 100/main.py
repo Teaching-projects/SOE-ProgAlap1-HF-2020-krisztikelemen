@@ -68,7 +68,7 @@ def pretty_time(seconds):
 def total_ascent(gpx):
     totalascent = 0
     for i in range(len(gpx)-1):
-        ascent = gpx[i+1]["elevation"] - gpx[i]["elevation"]
+        ascent = gpx[i+1]["elavation"] - gpx[i]["elavation"]
         if ascent > 0:
             totalascent += ascent
     return totalascent
