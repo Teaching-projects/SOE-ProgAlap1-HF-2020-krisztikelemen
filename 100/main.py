@@ -82,26 +82,25 @@ def chop_after_distance(gpx, distance):
         return track
     else:
         for i in range(len(gpx)-1):
-            dis = position_distance(gpx[i]["position"], gpx[i+1]["position"])
-            totaldistance += dis
-            if totaldistance < distance:
-                track.append(gpx[i])
-        return track
+            dist = position_distance(gpx[i]["position"],gpx[i+1]["position"])
+            totaldistance += dist
+            track.append(gpx[i])
+            if totaldistance >= distance:
+                track.append(gpx[i+1])
+                return track
 
 def fastest_1k(gpx):
-    tracks = []
+    min = total_time(chop_after_distance(gpx,1000))
+    
+    for i in range (len(gpx)):
+        track2 = chop_after_distance(gpx[i:],1000)
+        if total_time(track2) < min and total_time(track2) > 0:
+            min = total_time(track2)
 
-    for i in range(len(gpx)-1):
-        distance = position_distance(gpx[i]["position"],gpx[i+1]["position"])
-        if distance >= 1000:
-            tracks.append(gpx[i])
-
-    min = tracks[0]["timestamp"]
-
-    for j in range(len(tracks)-1):
-        if tracks[j]["timestamp"] < min:
-            min = tracks[j]["timestamp"]
-    return min
+    for j in range (len(gpx)):
+        track3 = chop_after_distance(gpx[j:],1000)
+        if total_time(track3) == min:
+            return track3
 
     
 
