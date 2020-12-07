@@ -3,6 +3,8 @@ from typing import Dict, List
 Tippek=List[str]
 """Leadott tippek, azaz betűk listájának típusa."""
 
+# betuk = ["a", "l", "m"]
+
 def kozte_van(betu:str, betuk:Tippek) -> bool:
     """Megadja, hogy a listában már benne van-e a megadott betű, vagy sem.
 
@@ -13,7 +15,11 @@ def kozte_van(betu:str, betuk:Tippek) -> bool:
     Returns:
         bool: `True` ha benne van, `False` ha nincsen.
     """
-    pass
+    for i in betuk:
+        if i == betu: return True
+    else: return False
+
+# print(kozte_van("a",betuk))
 
 specialis_karakterek=[' ','.',',','!','?',':','-']
 
@@ -29,7 +35,13 @@ def megjelenites(szo:str, betuk:Tippek) -> str:
     Returns:
         str: a megjelenített változata a szónak
     """
-    pass
+    lista = list(szo)
+
+    for i in lista:
+        if kozte_van(i,betuk+specialis_karakterek): print(i, end="")
+        else: print("_")
+
+# print(megjelenites("alma", betuk))
 
 def megfejtett(szo:str, betuk:Tippek) -> bool:
     """Megadja, hogy sikerült-e már megfejtenünk a szót, azaz minden benne levő betű már a tippjeink között van.
@@ -41,7 +53,10 @@ def megfejtett(szo:str, betuk:Tippek) -> bool:
     Returns:
         bool: `True` ha teljesen megfejtettük a szót, `False` különben
     """
-    pass
+    if megjelenites(szo,betuk) == szo: return True
+    else: return False
+
+# print(megfejtett("alma",betuk))
 
 def tartalmazza(szo:str, betu:str) -> bool:
     """Megadja, hogy a megaadott betű szerepel-e a megadott szóban.
@@ -53,7 +68,11 @@ def tartalmazza(szo:str, betu:str) -> bool:
     Returns:
         bool: `True` ha szerepel, `False` ha nem    
     """
-    pass
+    for i in szo:
+        if i == betu: return True
+    else: return False
+
+# print(tartalmazza("alma","a"))
 
 def rossz_tippek(szo:str, betuk:Tippek) -> int:
     """Megadja, hogy hány rossz betűt tippeltünk eddig.
@@ -65,7 +84,11 @@ def rossz_tippek(szo:str, betuk:Tippek) -> int:
     Returns:
         int: a rossz tippek száma
     """
-    pass
+    rossz = 0
+    for i in betuk:
+        if i not in szo:
+            rossz += 1
+    return rossz
 
 def eletek(osszes:int,elhasznalt:int)->str:
     """Visszaad egy olyan szöveget, ami egy indikátor arra, hány életünk van még.
@@ -79,7 +102,12 @@ def eletek(osszes:int,elhasznalt:int)->str:
     Returns:
         str: 😄😄😄💀💀 formátumú indikátor (a példa adatai: 5 összes, 2 elhasznált)
     """
-    pass
+    elet = (osszes - elhasznalt) * "x"
+    halal = elhasznalt * "y"
+    maradt = elet + halal
+    return maradt
+
+# print(eletek(4,2))
 
 def akasztofa(szo:str,osszes_elet:int) -> None:
     """Végigvisz egy akasztófa játékot, ahol a megadott szót kell kitalálni, és `osszes_elet` rossz tipp után vesztettünk.
@@ -101,10 +129,18 @@ def akasztofa(szo:str,osszes_elet:int) -> None:
         szo (str): a megfejtendő szó
         osszes_elet (int): az életeink száma, azaz hány rossz tipp után vesztettünk
     """
-    pass
-    
-
-
+    betuk = []
+    while True:
+        betu = input("Adja meg a kovetkezo betut: ")
+        betuk.append(betu)
+        print(megjelenites(szo,betuk))
+        print(eletek(osszes_elet,elhasznalt))
+        if megfejtett(szo,betuk):
+            print("Gratulalok, nyertel, es meg {} eleted maradt!",.format(eletek(osszes,elhasznalt)))
+            break
+        if eletek(0,elhasznalt):
+            print("Sajnalom, nem nyertel, ez lett volna a megoldas: ", szo)
+            break
 
 # Ez alatt ne tessek modositani.
 
