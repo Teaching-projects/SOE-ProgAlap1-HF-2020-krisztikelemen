@@ -36,10 +36,12 @@ def megjelenites(szo:str, betuk:Tippek) -> str:
         str: a megjelenített változata a szónak
     """
     lista = list(szo)
+    valami = ""
 
     for i in lista:
-        if kozte_van(i,betuk+specialis_karakterek): print(i, end="")
-        else: print("_")
+        if kozte_van(i,betuk+specialis_karakterek): valami += i
+        else: valami += "_"
+    return valami
 
 # print(megjelenites("alma", betuk))
 
@@ -102,8 +104,8 @@ def eletek(osszes:int,elhasznalt:int)->str:
     Returns:
         str: 😄😄😄💀💀 formátumú indikátor (a példa adatai: 5 összes, 2 elhasznált)
     """
-    elet = (osszes - elhasznalt) * "x"
-    halal = elhasznalt * "y"
+    elet = (osszes - elhasznalt) * "😄"
+    halal = elhasznalt * "💀"
     maradt = elet + halal
     return maradt
 
@@ -131,16 +133,21 @@ def akasztofa(szo:str,osszes_elet:int) -> None:
     """
     betuk = []
     while True:
-        betu = input("Adja meg a kovetkezo betut: ")
-        betuk.append(betu)
         print(megjelenites(szo,betuk))
-        print(eletek(osszes_elet,elhasznalt))
+        print(eletek(maxelet, rossz_tippek(szo,betuk)))
+        print(betuk)
+        betu = input("Adja meg a kovetkezo betut: ")
+        print(betu)
+        betuk.append(betu)
         if megfejtett(szo,betuk):
-            print("Gratulalok, nyertel, es meg {} eleted maradt!",.format(eletek(osszes,elhasznalt)))
+            print("Gratulalok, nyertel, es meg {} eleted maradt!".format(eletek(maxelet, rossz_tippek(szo, betuk))))
             break
-        if eletek(0,elhasznalt):
-            print("Sajnalom, nem nyertel, ez lett volna a megoldas: ", szo)
-            break
+        jatek = 0
+        if tartalmazza(szo, betu) == False:
+            jatek -= 1
+        if jatek ==  0:
+            print("Sajnalom, nem nyertel, ez lett volna a megoldas: {}".format(szo))
+            
 
 # Ez alatt ne tessek modositani.
 
