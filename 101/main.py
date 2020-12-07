@@ -140,13 +140,14 @@ def akasztofa(szo:str,osszes_elet:int) -> None:
         print(betu)
         betuk.append(betu)
         if megfejtett(szo,betuk):
-            print("Gratulalok, nyertel, es meg {} eleted maradt!".format(eletek(maxelet, rossz_tippek(szo, betuk))))
+            print("Gratulalok, nyertel, es meg {} eleted maradt!".format(eletek(maxelet - rossz_tippek(szo, betuk))))
             break
         jatek = 0
         if tartalmazza(szo, betu) == False:
             jatek -= 1
         if jatek ==  0:
             print("Sajnalom, nem nyertel, ez lett volna a megoldas: {}".format(szo))
+            break
             
 
 # Ez alatt ne tessek modositani.
