@@ -132,6 +132,7 @@ def akasztofa(szo:str,osszes_elet:int) -> None:
         osszes_elet (int): az életeink száma, azaz hány rossz tipp után vesztettünk
     """
     betuk = []
+    jatek = maxelet
     while True:
         print(megjelenites(szo,betuk))
         print(eletek(maxelet, rossz_tippek(szo,betuk)))
@@ -140,9 +141,8 @@ def akasztofa(szo:str,osszes_elet:int) -> None:
         print(betu)
         betuk.append(betu)
         if megfejtett(szo,betuk):
-            print("Gratulalok, nyertel, es meg {} eleted maradt!".format(eletek(maxelet - rossz_tippek(szo, betuk))))
+            print("Gratulalok, nyertel, es meg {} eleted maradt!".format(maxelet - rossz_tippek(szo, betuk)))
             break
-        jatek = 0
         if tartalmazza(szo, betu) == False:
             jatek -= 1
         if jatek ==  0:
